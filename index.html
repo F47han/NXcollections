@@ -62,18 +62,32 @@
             position: relative;
             z-index: 1000;
         }
+        /* Desktop Logo - Increased size */
+.logo img {
+    height: 80px; /* Increased from 60px */
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5));
+    max-width: 100%;
+    transition: var(--transition);
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-        }
+/* Tablet Adjustment (around 992px) */
+@media (max-width: 992px) {
+    .logo img {
+        height: 60px; /* Scales down slightly for tablets */
+    }
+}
 
-        .logo img {
-            height: 60px;
-            width: auto;
-            filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5));
-            max-width: 100%;
-        }
+/* Mobile Adjustment (480px) */
+@media (max-width: 480px) {
+    header {
+        padding: 10px 4%;
+    }
+    
+    .logo img {
+        height: 50px; /* Increased from 40px - stays prominent but fits the header */
+    }
+}
 
         .search-bar {
             flex: 1;
@@ -1178,3 +1192,4 @@
 </body>
 
 </html>
+
