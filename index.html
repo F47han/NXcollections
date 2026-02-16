@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NX Collections | Premium Trading Cards & Collectibles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #000;
+            --dark-secondary: #0a0a0a;
+            --text-primary: #fff;
+            --text-secondary: #aaa;
+            --accent-orange: #ff6b35;
+            --accent-orange-light: #ff8c5c;
+            --card-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Thin, sharp header typography */
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+
+        /* Neon text effect for thin headers */
+        .neon-text {
+            color: var(--accent-orange);
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange), 
+                        0 0 15px var(--accent-orange), 
+                        0 0 20px var(--accent-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 300;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--dark-bg);
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent-orange);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5));
+            max-width: 100%;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            font-weight: 400;
+            font-family: 'Montserrat', sans-serif;
+            padding: 8px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-orange);
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange);
+        }
+
+        .cart-icon {
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-left: 15px;
+        }
+
+        .cart-icon:hover {
+            color: var(--accent-orange);
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange);
+        }
+
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--accent-orange);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Hero Section with Carousel */
+        .hero {
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+        }
+
+        .hero-slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+            z-index: 1;
+        }
+
+        .hero-content {
+            width: 50%;
+            padding: 0 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            color: var(--accent-orange);
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange), 
+                        0 0 15px var(--accent-orange), 
+                        0 0 20px var(--accent-orange);
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: 2px solid var(--accent-orange);
+            font-family: 'Montserrat', sans-serif;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--accent-orange);
+            transform: translateY(-3px);
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange);
+        }
+
+        .hero-image {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-image img {
+            max-width: 90%;
+            max-height: 85%;
+            border: 3px solid var(--accent-orange);
+            border-radius: 5px;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+            object-fit: contain;
+        }
+
+        /* Carousel Controls */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--accent-orange);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+        }
+
+        .slider-arrow:hover {
+            background: rgba(255, 107, 53, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-arrow.prev {
+            left: 20px;
+        }
+
+        .slider-arrow.next {
+            right: 20px;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            background: var(--accent-orange);
+            transform: scale(1.2);
+        }
+
+        /* Featured Collectibles Section */
+        .featured-section {
+            padding: 60px 5%;
+            background: var(--dark-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--accent-orange);
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange), 
+                        0 0 15px var(--accent-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            font-weight: 300;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-orange);
+            box-shadow: var(--card-shadow);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+
+        .category-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-name {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: var(--accent-orange);
+            font-size: 1.8rem;
+            font-weight: 300;
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange), 
+                        0 0 15px var(--accent-orange);
+            z-index: 3;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            padding: 60px 5%;
+            background: var(--dark-bg);
+            text-align: center;
+        }
+
+        .newsletter-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .newsletter-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-orange);
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange), 
+                        0 0 15px var(--accent-orange);
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .newsletter-content p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px 0 0 30px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .newsletter-form input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+        }
+
+        .newsletter-form button {
+            background: var(--accent-orange);
+            color: #000;
+            border: none;
+            padding: 0 30px;
+            border-radius: 0 30px 30px 0;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Montserrat', sans-serif;
+            min-width: 120px;
+        }
+
+        .newsletter-form button:hover {
+            background: #e05a2a;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            padding: 40px 5% 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .footer-links li {
+            margin: 0 15px 15px 0;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-orange);
+            text-shadow: 0 0 5px var(--accent-orange), 
+                        0 0 10px var(--accent-orange);
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            margin-right: 12px;
+            transition: var(--transition);
+            font-size: 18px;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-orange);
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: var(--transition);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-menu .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--accent-orange);
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .mobile-menu li {
+            margin: 15px 0;
+        }
+
+        .mobile-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 300;
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition);
+            display: block;
+            padding: 15px 30px;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--accent-orange);
+            text-shadow: 0 0 10px var(--accent-orange);
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-slide {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .hero-content, .hero-image {
+                width: 100%;
+                padding: 0 5%;
+            }
+            
+            .hero-content {
+                margin-bottom: 30px;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero p {
+                margin: 0 auto 30px;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .logo img {
+                height: 45px;
+            }
+            
+            .slider-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            
+            .slider-arrow.prev {
+                left: 10px;
+            }
+            
+            .slider-arrow.next {
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links, .search-bar {
+                display: none;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-image img {
+                max-height: 60%;
+                width: 90%;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+                margin-bottom: 30px;
+            }
+            
+            .category-image {
+                height: 180px;
+            }
+            
+            .category-name {
+                font-size: 1.6rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+                margin-bottom: 30px;
+            }
+            
+            .social-links {
+                margin-top: 30px;
+            }
+            
+            .slider-dots {
+                bottom: 20px;
+            }
+            
+            .dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 4%;
+            }
+            
+            .logo img {
+                height: 40px;
+            }
+            
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero-slide {
+                padding: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                margin-bottom: 25px;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+                font-size: 14px;
+                min-width: 160px;
+            }
+            
+            .hero-image img {
+                max-height: 50%;
+                width: 85%;
+            }
+            
+            .section-title {
+                font-size: 1rem;
+            }
+            
+            .newsletter-content h2 {
+                font-size: 2rem;
+            }
+            
+            .newsletter-content p {
+                font-size: 1rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .newsletter-form input, 
+            .newsletter-form button {
+                border-radius: 30px;
+                width: 100%;
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+            
+            .category-image {
+                height: 160px;
+            }
+            
+            .category-name {
+                font-size: 1.5rem;
+                bottom: 15px;
+                left: 15px;
+            }
+            
+            .footer-links li {
+                margin: 8px 12px 8px 0;
+            }
+            
+            .footer-links a {
+                font-size: 13px;
+                padding: 4px 0;
+            }
+            
+            .social-links a {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+            
+            .copyright {
+                font-size: 13px;
+                padding-top: 15px;
+            }
+            
+            .mobile-menu a {
+                font-size: 20px;
+                padding: 12px 25px;
+            }
+            
+            .slider-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            .category-card {
+                transform: none !important;
+            }
+            
+            .category-card:active {
+                transform: scale(0.98);
+            }
+            
+            .btn:active {
+                transform: scale(0.95);
+            }
+            
+            .slider-arrow:active {
+                transform: translateY(-50%) scale(0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="NX Collections Logo">
+        </div>
+        
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search for cards, sets, and more...">
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="index.html" class="neon-text">Shop All</a></li>
+            <li><a href="sealed.html" class="neon-text">Sealed Packs</a></li>
+            <li><a href="graded.html" class="neon-text">Graded Slabs</a></li>
+            <li><a href="memorabilia.html" class="neon-text">Memorabilia</a></li>
+        </ul>
+        
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="close-btn" id="closeMenu">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li><a href="index.html">Shop All</a></li>
+            <li><a href="sealed.html">Sealed Packs</a></li>
+            <li><a href="graded.html">Graded Slabs</a></li>
+            <li><a href="memorabilia.html">Memorabilia</a></li>
+            <li><a href="pokemon.html">Pokémon</a></li>
+            <li><a href="onepiece.html">One Piece</a></li>
+            <li><a href="yugioh.html">Yu-Gi-Oh!</a></li>
+            <li><a href="sportscards.html">Sports Cards</a></li>
+            <li><a href="accessories.html">Accessories</a></li>
+        </ul>
+    </div>
+    
+    <!-- Hero Banner Section with Carousel -->
+    <section class="hero">
+        <div class="hero-slider" id="heroSlider">
+            <!-- Slide 1: Pokémon -->
+            <div class="hero-slide" style="background-image: url('https://assetsio.gnwcdn.com/charizard-holo-shadowless-1999-pok%C3%A9mon-card-pwcc.png?width=690&quality=85&format=jpg&dpr=3&auto=webp');">
+                <div class="hero-content">
+                    <h1 class="neon-text">Unleash Your Inner Trainer</h1>
+                    <p>Explore rare finds, complete your sets, and build your ultimate collection of Pokémon cards with NX Collections.</p>
+                    <a href="pokemon.html" class="btn">Shop All Pokemon</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://assetsio.gnwcdn.com/charizard-holo-shadowless-1999-pok%C3%A9mon-card-pwcc.png?width=690&quality=85&format=jpg&dpr=3&auto=webp" alt="Charizard Pokémon Card">
+                </div>
+            </div>
+            
+            <!-- Slide 2: Sealed Products -->
+            <div class="hero-slide" style="background-image: url('https://m.media-amazon.com/images/I/519vF+ZRw4L._AC_UF894,1000_QL80_.jpg');">
+                <div class="hero-content">
+                    <h1 class="neon-text">Complete Your Collection</h1>
+                    <p>Discover exclusive sealed products, graded cards, and rare memorabilia to elevate your collection.</p>
+                    <a href="sealed.html" class="btn">Explore Sealed Products</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://m.media-amazon.com/images/I/519vF+ZRw4L._AC_UF894,1000_QL80_.jpg" alt="Sealed Pokémon Products">
+                </div>
+            </div>
+        </div>
+        
+        <button class="slider-arrow prev" id="prevSlide">&lt;</button>
+        <button class="slider-arrow next" id="nextSlide">&gt;</button>
+        <div class="slider-dots" id="sliderDots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+        </div>
+    </section>
+    
+    <!-- Featured Collectibles Section -->
+    <section class="featured-section">
+        <h2 class="section-title">Featured Collectibles</h2>
+        <div class="categories-grid">
+            <!-- Pokémon -->
+            <a href="pokemon.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3FM4kLGxNsVu_Ollbs2YaH4K6C5E7qVvQcg&s');">
+                    <div class="category-name neon-text">Pokémon</div>
+                </div>
+            </a>
+            
+            <!-- One Piece -->
+            <a href="onepiece.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1605735789142-f7f4a791946e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80');">
+                    <div class="category-name neon-text">One Piece</div>
+                </div>
+            </a>
+            
+            <!-- Funko -->
+            <a href="funko.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://w7.pngwing.com/pngs/592/179/png-transparent-funko-action-toy-figures-collectable-it-toy-game-text-photography.png');">
+                    <div class="category-name neon-text">Funko</div>
+                </div>
+            </a>
+            
+            <!-- Yu-Gi-Oh! -->
+            <a href="yugioh.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://toppng.com/uploads/preview/yugioh-logo-yu-gi-oh-11562857421zchdpnt0xu.png');">
+                    <div class="category-name neon-text">Yu-Gi-Oh!</div>
+                </div>
+            </a>
+            
+            <!-- Graded Cards -->
+            <a href="graded.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://i.ebayimg.com/images/g/xM8AAOSwjmJl67Nz/s-l1200.jpg');">
+                    <div class="category-name neon-text">Graded Cards</div>
+                </div>
+            </a>
+            
+            <!-- Sealed Products -->
+            <a href="sealed.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://cdn.ecommercedns.uk/files/3/251613/8/33213978/view4-pokemon-tcg-scarlet-box-pok85324-main.jpg');">
+                    <div class="category-name neon-text">Sealed Products</div>
+                </div>
+            </a>
+            
+            <!-- Accessories -->
+            <a href="accessories.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://m.media-amazon.com/images/I/81EoZ-1dRUL._AC_UF894,1000_QL80_.jpg');">
+                    <div class="category-name neon-text">Accessories</div>
+                </div>
+            </a>
+            
+            <!-- Sports Cards -->
+            <a href="sportscards.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1587280501635-68a0c5be74a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80');">
+                    <div class="category-name neon-text">Sports Cards</div>
+                </div>
+            </a>
+            
+            <!-- Autographed Memorabilia -->
+            <a href="memorabilia.html" class="category-card">
+                <div class="category-image" style="background-image: url('https://welovecollectibles.co.uk/wp-content/uploads/2025/04/IMG_0945-scaled.jpg');">
+                    <div class="category-name neon-text">Autographed Memorabilia</div>
+                </div>
+            </a>
+        </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="newsletter-content">
+            <h2 class="neon-text">Stay Updated with NX Collections!</h2>
+            <p>Join our newsletter for exclusive offers, new releases, and community highlights directly in your inbox.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <ul class="footer-links">
+                <li><a href="return-policy.html" class="neon-text">Return Policy</a></li>
+                <li><a href="shipping.html" class="neon-text">Shipping Information</a></li>
+                <li><a href="privacy.html" class="neon-text">Privacy Policy</a></li>
+                <li><a href="terms.html" class="neon-text">Terms of Service</a></li>
+                <li><a href="about.html" class="neon-text">About Us</a></li>
+                <li><a href="contact.html" class="neon-text">Contact Us</a></li>
+            </ul>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 NX Collections. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const closeMenu = document.getElementById('closeMenu');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closeMenu.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close menu when clicking outside
+            mobileMenu.addEventListener('click', function(e) {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Hero Carousel Functionality
+            const heroSlider = document.getElementById('heroSlider');
+            const slides = document.querySelectorAll('.hero-slide');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.getElementById('prevSlide');
+            const nextBtn = document.getElementById('nextSlide');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            
+            // Initialize slider position
+            updateSlider();
+            
+            // Next slide function
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateSlider();
+            }
+            
+            // Previous slide function
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateSlider();
+            }
+            
+            // Update slider position and dots
+            function updateSlider() {
+                heroSlider.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update dots
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            // Event listeners for controls
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            // Dot navigation
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    currentSlide = parseInt(dot.getAttribute('data-index'));
+                    updateSlider();
+                });
+            });
+            
+            // Auto slide every 5 seconds
+            let slideInterval = setInterval(nextSlide, 5000);
+            
+            // Pause auto slide on hover/touch
+            const heroSection = document.querySelector('.hero');
+            heroSection.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            heroSection.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+            heroSection.addEventListener('touchstart', () => clearInterval(slideInterval));
+            heroSection.addEventListener('touchend', () => {
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+            
+            // Add hover effects to category cards
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Newsletter form submission
+            const newsletterForm = document.querySelector('.newsletter-form');
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input').value;
+                alert(`Thank you for subscribing with ${email}!\n\nYou'll receive exclusive offers and updates from NX Collections.`);
+                this.reset();
+            });
+            
+            // Cart icon interaction
+            const cartIcon = document.querySelector('.cart-icon');
+            cartIcon.addEventListener('click', function() {
+                alert('Your cart contains 3 items:\n\n• PSA 10 Charizard - $1,200\n• One Piece Starter Deck - $45\n• Premium Card Binder - $35\n\nTotal: $1,280');
+            });
+            
+            // Touch swipe support for carousel
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            heroSection.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            heroSection.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) {
+                    // Swipe left - next slide
+                    nextSlide();
+                }
+                if (touchEndX > touchStartX + 50) {
+                    // Swipe right - previous slide
+                    prevSlide();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
