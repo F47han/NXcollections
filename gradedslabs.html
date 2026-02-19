@@ -1,1 +1,259 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graded Archives | NX Collectibles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #000;
+            --dark-secondary: #0a0a0a;
+            --text-primary: #fff;
+            --text-secondary: #aaa;
+            --accent-orange: #ff6b35;
+            --accent-glow: 0 0 15px rgba(255, 107, 53, 0.7), 0 0 30px rgba(255, 107, 53, 0.3);
+            --card-shadow: 0 0 25px rgba(255, 107, 53, 0.25);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--dark-bg); color: var(--text-primary); font-family: 'Roboto', sans-serif; overflow-x: hidden; }
+
+        .neon-text {
+            color: var(--accent-orange);
+            text-shadow: var(--accent-glow);
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        /* --- HEADER & BIG LOGO --- */
+        header {
+            background: var(--dark-bg);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-orange);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 110px; /* Taller header for the bigger logo */
+        }
+
+        .header-left { display: flex; align-items: center; gap: 40px; }
+        
+        /* The Logo */
+        .logo-link { display: flex; align-items: center; text-decoration: none; }
+        .logo-link img { 
+            height: 75px; /* Large, noticeable size */
+            width: auto;
+            filter: drop-shadow(0 0 10px var(--accent-orange));
+            transition: var(--transition);
+        }
+        .logo-link:hover img { 
+            transform: scale(1.05); 
+            filter: drop-shadow(0 0 20px var(--accent-orange));
+        }
+
+        .home-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-family: 'Montserrat';
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .home-link:hover { color: var(--accent-orange); }
+
+        .cart-icon { color: var(--text-secondary); cursor: pointer; font-size: 24px; position: relative; }
+        #cart-count {
+            position: absolute; top: -12px; right: -12px;
+            background: var(--accent-orange); color: black;
+            font-size: 0.75rem; font-weight: 900; padding: 2px 7px; border-radius: 12px;
+        }
+
+        /* --- UI Elements --- */
+        .drawer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            z-index: 1500; display: none;
+        }
+        .drawer-overlay.active { display: block; }
+
+        .cart-drawer {
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px;
+            height: 100%; background: var(--dark-secondary); z-index: 2000;
+            transition: var(--transition); padding: 35px; border-left: 1px solid var(--accent-orange);
+            display: flex; flex-direction: column;
+        }
+        .cart-drawer.active { right: 0; }
+        .close-btn { align-self: flex-end; font-size: 2rem; color: #fff; cursor: pointer; }
+
+        /* --- Product Grid --- */
+        .page-intro { max-width: 1200px; margin: 50px auto 20px; padding: 0 5%; display: flex; justify-content: space-between; align-items: center; }
+        
+        #product-grid {
+            max-width: 1200px; margin: 0 auto; padding: 0 5% 80px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
+        }
+        @media (min-width: 768px) { #product-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; } }
+
+        .product-card {
+            background: var(--dark-secondary); border: 1px solid rgba(255,255,255,0.05);
+            padding: 15px; border-radius: 12px; position: relative; transition: var(--transition);
+            opacity: 0; transform: translateY(30px);
+        }
+        .product-card.visible { opacity: 1; transform: translateY(0); }
+        .product-card:hover { border-color: var(--accent-orange); box-shadow: var(--card-shadow); transform: translateY(-10px); }
+        
+        .img-wrap { 
+            width: 100%; aspect-ratio: 1/1.4; background: #050505; 
+            border-radius: 8px; overflow: hidden; margin-bottom: 18px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .product-card img { width: 90%; height: 90%; object-fit: contain; }
+
+        .grade-badge { 
+            position: absolute; top: 25px; right: 25px; background: var(--accent-orange); 
+            color: #000; font-weight: 800; font-size: 0.7rem; padding: 4px 8px; border-radius: 4px;
+            z-index: 5;
+        }
+
+        .card-title { font-family: 'Montserrat'; font-size: 0.9rem; margin-bottom: 12px; height: 2.8rem; overflow: hidden; font-weight: 600; color: #eee; }
+        .card-price { color: var(--accent-orange); font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; display: block; }
+
+        .buy-btn {
+            width: 100%; min-height: 46px; background: transparent; 
+            border: 1px solid var(--accent-orange); color: var(--accent-orange);
+            font-weight: 700; cursor: pointer; border-radius: 6px; transition: var(--transition);
+            text-transform: uppercase;
+        }
+        .buy-btn:hover:not(:disabled) { background: var(--accent-orange); color: black; }
+        .buy-btn:disabled { border-color: #222; color: #444; cursor: not-allowed; }
+
+        .sold-out { filter: grayscale(0.8); }
+
+        footer { border-top: 1px solid #222; padding: 40px 5%; text-align: center; margin-top: 40px; color: #444; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <a href="index.html" class="logo-link">
+                <img src="Logo.png" alt="NX Collectibles">
+            </a>
+            <a href="index.html" class="home-link">Home</a>
+        </div>
+        <div class="cart-icon" id="cartBtn">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <div class="drawer-overlay" id="uiOverlay"></div>
+    <div class="cart-drawer" id="basketSide">
+        <i class="fas fa-times close-btn" id="basketClose"></i>
+        <h2 class="neon-text" style="margin-bottom: 25px;">Basket</h2>
+        <div id="cart-list" style="flex-grow: 1; overflow-y: auto;"></div>
+        <div style="border-top: 1px solid #222; padding-top: 25px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom: 25px;">
+                <span>Total:</span> <span id="cart-total" style="color:var(--accent-orange); font-weight:bold; font-size: 1.3rem;">£0.00</span>
+            </div>
+            <button class="buy-btn" id="finaliseBtn" style="background:var(--accent-orange); color:black;">Buy Now</button>
+        </div>
+    </div>
+
+    <div class="page-intro">
+        <h1 class="neon-text" style="font-size: 1.4rem;">Graded Archives</h1>
+    </div>
+
+    <main id="product-grid"></main>
+
+    <footer>
+        <p>© 2026 NX Collectibles. Edinburgh, Scotland.</p>
+    </footer>
+
+    <script>
+        const products = [
+            { id: 1, name: "Base Set Charizard Holo", grade: "PSA 10", price: 1250.00, img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png", stock: 1 },
+            { id: 2, name: "Neo Genesis Lugia Holo", grade: "BGS 9.5", price: 850.00, img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/249.png", stock: 1 },
+            { id: 3, name: "Expedition Gengar Holo", grade: "PSA 9", price: 420.00, img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png", stock: 0 },
+            { id: 4, name: "Rayquaza VMAX Alt Art", grade: "PSA 10", price: 950.00, img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/384.png", stock: 1 },
+            { id: 5, name: "Umbreon VMAX Moonbreon", grade: "PSA 10", price: 1100.00, img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/197.png", stock: 1 },
+            { id: 6, name: "Shadowless Mewtwo Holo", grade: "PSA 8", price: 310.00, img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png", stock: 1 },
+            { id: 7, name: "Giratina V Alt Art", grade: "PSA 10", price: 580.00, img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/487.png", stock: 1 },
+            { id: 8, name: "1st Edition Blastoise", grade: "CGC 9", price: 740.00, img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png", stock: 1 }
+        ];
+
+        let cart = [];
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map((p, idx) => {
+                const inCart = cart.some(i => i.id === p.id);
+                return `
+                <div class="product-card ${p.stock === 0 ? 'sold-out' : ''}" style="transition-delay: ${idx * 0.1}s">
+                    <span class="grade-badge">${p.grade}</span>
+                    <div class="img-wrap"><img src="${p.img}" alt="${p.name}"></div>
+                    <h3 class="card-title">${p.name}</h3>
+                    <span class="card-price">£${p.price.toFixed(2)}</span>
+                    <button class="buy-btn" onclick="addToCart(${p.id})" ${p.stock === 0 || inCart ? 'disabled' : ''}>
+                        ${p.stock === 0 ? 'Sold' : (inCart ? 'In Basket' : 'Add to Basket')}
+                    </button>
+                </div>`;
+            }).join('');
+            setTimeout(() => document.querySelectorAll('.product-card').forEach(el => el.classList.add('visible')), 50);
+        }
+
+        const ui = {
+            overlay: document.getElementById('uiOverlay'),
+            cart: document.getElementById('basketSide'),
+            toggle: (el, show) => {
+                el.classList.toggle('active', show);
+                ui.overlay.classList.toggle('active', show);
+                document.body.style.overflow = show ? 'hidden' : '';
+            }
+        };
+
+        document.getElementById('cartBtn').onclick = () => ui.toggle(ui.cart, true);
+        document.getElementById('basketClose').onclick = () => ui.toggle(ui.cart, false);
+        ui.overlay.onclick = () => ui.toggle(ui.cart, false);
+
+        function addToCart(id) {
+            cart.push(products.find(p => p.id === id));
+            updateCart();
+            ui.toggle(ui.cart, true);
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(c => c.id !== id);
+            updateCart();
+        }
+
+        function updateCart() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = cart.length === 0 ? '<p style="text-align:center; margin-top:50px; color:#555;">Empty</p>' : 
+                cart.map(i => `<div style="display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #1a1a1a;">
+                    <div><p style="font-size:0.9rem;">${i.name}</p><p style="color:var(--accent-orange); font-weight:700;">£${i.price.toFixed(2)}</p></div>
+                    <button onclick="removeFromCart(${i.id})" style="background:none; border:none; color:#ff4d4d; cursor:pointer;"><i class="fas fa-trash"></i></button>
+                </div>`).join('');
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-total').innerText = `£${cart.reduce((a, b) => a + b.price, 0).toFixed(2)}`;
+            renderProducts();
+        }
+
+        document.getElementById('finaliseBtn').onclick = () => {
+            if (cart.length === 0) return;
+            window.location.href = `mailto:sales@nxcollectibles.com?subject=Purchase&body=${cart.map(i => i.name).join(', ')}`;
+        };
+
+        renderProducts();
+    </script>
+</body>
+</html>
